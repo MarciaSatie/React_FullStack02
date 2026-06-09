@@ -8,7 +8,8 @@ import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { FilterOption } from "../../types/interfaces";
 
 const styles = {
   root: {
@@ -23,14 +24,23 @@ const styles = {
   },
 };
 
+interface FilterMoviesCardProps {
+  onUserInput: (f: FilterOption, s: string)  => void;
+  titleFilter: string;
+  genreFilter: string;
+}
 
-  const FilterMoviesCard: React.FC= () => {
+
+
+const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => { 
 
   const genres = [
     {id: 1, name: "Animation"},
     {id: 2, name: "Comedy"},
     {id: 3, name: "Thriller"}
   ]
+
+  // handlers are wired inline below
 
   return (
     <>
@@ -46,20 +56,22 @@ const styles = {
           label="Search field"
           type="search"
           variant="filled"
+          value={titleFilter}
+          onChange={(e) => onUserInput("title", e.target.value)}
         />
         <FormControl sx={styles.formControl}>
           <InputLabel id="genre-label">Genre</InputLabel>
           <Select
             labelId="genre-label"
             id="genre-select"
+            value={genreFilter}
+            onChange={(e) => onUserInput("genre", String((e as SelectChangeEvent).target.value))}
           >
-            {genres.map((genre) => {
-              return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
-                </MenuItem>
-              );
-            })}
+            {genres.map((genre) => (
+              <MenuItem key={genre.id} value={String(genre.id)}>
+                {genre.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </CardContent>
