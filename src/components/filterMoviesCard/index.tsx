@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react"; 
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -10,6 +10,7 @@ import SortIcon from '@mui/icons-material/Sort';
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FilterOption } from "../../types/interfaces";
+import { getGenres } from "../../api/tmdb-api";
 
 const styles = {
   root: {
@@ -34,11 +35,15 @@ interface FilterMoviesCardProps {
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = ({ titleFilter, genreFilter, onUserInput }) => { 
 
-  const genres = [
-    {id: 1, name: "Animation"},
-    {id: 2, name: "Comedy"},
-    {id: 3, name: "Thriller"}
-  ]
+const initialGenres = [{ id: 0, name: "All" }];
+const [genres, setGenres] = useState<{id:number; name:string}[]>(initialGenres);
+
+useEffect(() => {
+  getGenres().then((allGenres) => {
+    setGenres([...initialGenres, ...allGenres]);
+  });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   // handlers are wired inline below
 
