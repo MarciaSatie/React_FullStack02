@@ -5,9 +5,9 @@ import MovieDetails from "../components/movieDetails";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { MoviePageProps} from "../types/interfaces";
+import { MovieImage,MovieDetailsProps} from "../types/interfaces";
 import { getMovie, getMovieImages } from "../api/tmdb-api";
-
+import { useParams } from "react-router-dom";
 
 
 const styles = {
@@ -25,8 +25,11 @@ const styles = {
 
 
 
-const MoviePage: React.FC<MoviePageProps> = ({movie, images}) => {
-  
+const MoviePage: React.FC = () => {
+  const { id } = useParams();
+  const [movie, setMovie] = useState<MovieDetailsProps>();
+  const [images, setImages] = useState<MovieImage[]>([]);
+
   useEffect(() => {
     getMovie(id ?? "").then((movie) => {
       setMovie(movie);
