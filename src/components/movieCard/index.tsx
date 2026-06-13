@@ -34,6 +34,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, selectFavourite }) => {
 
   const handleAddToFavourite = (e: MouseEvent) => {
     e.preventDefault();
+    console.log("Favorite button clicked for movie:", movie);
+    console.log("Movie id:", movie.id);
+    console.log("Current favourite:", movie.favourite);
+  
     selectFavourite?.(movie.id);
   };
 
