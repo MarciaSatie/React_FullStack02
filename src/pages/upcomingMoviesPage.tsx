@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
 
   return (
     <PageTemplate
-      title='Discover Movies'
+      title='Upcoming Movies'
       movies={movies}
       selectFavourite={addToFavourites}
     />
