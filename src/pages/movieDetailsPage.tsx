@@ -29,6 +29,7 @@ const MoviePage: React.FC = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState<MovieDetailsProps>();
   const [images, setImages] = useState<MovieImage[]>([]);
+  
 
   useEffect(() => {
     getMovie(id ?? "").then((movie) => {

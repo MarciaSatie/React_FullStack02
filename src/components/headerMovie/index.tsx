@@ -25,16 +25,20 @@ const styles = {
 
 
 const MovieHeader: React.FC<MovieDetailsProps> = (movie) => {
+  // Retrieve the favourites array from localStorage
   const storedFavourites = JSON.parse(localStorage.getItem("favourites") || "[]");
   console.log("current movie id:", movie.id);
   console.log("stored favourites:", storedFavourites);
   
+  // Check if the current movie exists in the stored favourites array
+  // .some() returns true if ANY item in the array matches the condition
   const isFavourite = storedFavourites.some((favMovie: { id: number }) => {
     console.log("checking favMovie id:", favMovie.id, "against:", movie.id);
     return favMovie.id === movie.id;
   });
-  
   console.log("isFavourite:", isFavourite);
+  console.log("isFavourite:", isFavourite);
+
   return (
     <Paper component="div" sx={styles.root}>
       <IconButton aria-label="go back">
