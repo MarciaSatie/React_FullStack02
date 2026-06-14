@@ -15,7 +15,7 @@ const App = () => {
       <SiteHeader />
       <Routes>
         <Route path="/movies/:id" element={<MoviePage />} />
-        <Route path="/movies/upcoming" element={<UpcomingMoviesPage  />} />
+        <Route path="/movies/upcoming" element={<UpcomingMoviesPage/>} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Navigate to="/" />} />
         <Route path="/reviews/:id" element={<MovieReviewPage/>} />

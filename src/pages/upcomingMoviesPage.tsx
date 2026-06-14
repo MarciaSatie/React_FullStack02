@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PageTemplate from '../components/templateMovieListPage';
 import { BaseMovieProps } from "../types/interfaces";
 import { getUpcomingMovies } from "../api/tmdb-api";
+import useMovieList from "../hooks/useMovieList";
 
-
-const HomePage: React.FC = () => {
-  const [movies, setMovies] = useState<BaseMovieProps[]>([]);
+const UpcomingMoviesPage: React.FC = () => {
+    const { movies, setMovies } = useMovieList(getUpcomingMovies);
   const favourites = movies.filter(m => m.favourite)
   localStorage.setItem('favourites', JSON.stringify(favourites))
   // New function
@@ -16,14 +16,6 @@ const HomePage: React.FC = () => {
     setMovies(updatedMovies);
   };
 
-  useEffect(() => {
-    getUpcomingMovies().then(movies => {
-      setMovies(movies);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-
   return (
     <PageTemplate
       title='Upcoming Movies'
@@ -32,4 +24,4 @@ const HomePage: React.FC = () => {
     />
   );
 };
-export default HomePage;
+export default UpcomingMoviesPage;
