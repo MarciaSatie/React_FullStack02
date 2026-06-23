@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React, { MouseEvent,useContext } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -15,7 +15,11 @@ import IconButton from "@mui/material/IconButton";
 import img from '../../images/film-poster-placeholder.png';
 import { BaseMovieProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
+import { MoviesContext } from "../../contexts/moviesContext";
 
+interface MovieCardProps { //Removed selectFavourite property from interface
+  movie: BaseMovieProps;
+}
 
 const styles = {
   card: { maxWidth: 345 },
@@ -30,28 +34,32 @@ interface MovieCardProps {
   selectFavourite?: (movieId: number) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ movie, selectFavourite }) => {
+const MovieCard: React.FC<MovieCardProps> = ({movie}) => {
+  const { favourites, addToFavourites } = useContext(MoviesContext);
 
-  const handleAddToFavourite = (e: MouseEvent) => {
+  const isFavourite = favourites.find((id) => id === movie.id)? true : false;
+ 
+  const handleAddToFavourite = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    console.log("Favorite button clicked for movie:", movie);
-    console.log("Movie id:", movie.id);
-    console.log("Current favourite:", movie.favourite);
-  
-    selectFavourite?.(movie.id);
+    addToFavourites(movie);
   };
+
 
   return (
     <Card sx={styles.card}>
       <CardHeader
         avatar={
-          movie.favourite ? (
+          isFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
             </Avatar>
           ) : null
         }
-        title={movie.title}
+        title={
+          <Typography variant="h5" component="p">
+            {movie.title}{" "}
+          </Typography>
+        }
       />
       <CardMedia
         sx={styles.media}
@@ -79,7 +87,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, selectFavourite }) => {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" onClick={handleAddToFavourite}>
-          <FavoriteIcon color={movie.favourite ? "error" : "primary"} fontSize="large" />
+          <FavoriteIcon color={isFavourite ? "error" : "primary"} fontSize="large" />
         </IconButton>
 
         <Link to={`/movies/${movie.id}`}>
