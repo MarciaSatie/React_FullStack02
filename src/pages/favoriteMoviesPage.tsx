@@ -12,6 +12,8 @@ import MovieFilterUI, {
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
 
+
+
 const titleFiltering = {
   name: "title",
   value: "",
