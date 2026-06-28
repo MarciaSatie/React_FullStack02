@@ -1,23 +1,19 @@
-import { useEffect, useState } from "react";
-import { BaseMovieProps } from "../types/interfaces";
+import React from "react";
+import PageTemplate from "../components/templateMovieListPage";
+import { getUpcomingMovies } from "../api/tmdb-api";
+import useMovieList from "../hooks/useMovieList";
+import AddToFavouritesIcon from "../components/cardIcons/addToFavourites";
 
-// This hook fetches a list of movies and stores them in state.
-const useMovieList = (fetchMovies: () => Promise<BaseMovieProps[]>) => {
-  // Create state to hold the movie list.
-  const [movies, setMovies] = useState<BaseMovieProps[]>([]);
+const UpcomingMoviesPage: React.FC = () => {
+  const { movies } = useMovieList(getUpcomingMovies);
 
-  // Run the fetch when the hook is first used, or if fetchMovies changes.
-  useEffect(() => {
-    // Call the passed-in fetch function.
-    fetchMovies()
-      .then((data) => {
-        // Save the returned movies into state.
-        setMovies(data);
-      });
-  }, [fetchMovies]);// keep an eye for any changes at fetchMovies function
-
-  // Return the movies and the setter so the page can use them.
-  return { movies, setMovies };
+  return (
+    <PageTemplate
+      title="Upcoming Movies"
+      movies={movies}
+      action={(movie) => <AddToFavouritesIcon movie={movie} />}
+    />
+  );
 };
 
-export default useMovieList;
+export default UpcomingMoviesPage;

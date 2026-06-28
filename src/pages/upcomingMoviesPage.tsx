@@ -1,19 +1,33 @@
 import React from "react";
-import PageTemplate from '../components/templateMovieListPage';
+import PageTemplate from "../components/templateMovieListPage";
 import { getUpcomingMovies } from "../api/tmdb-api";
-import useMovieList from "../hooks/useMovieList";
-import AddToFavouritesIcon from '../components/cardIcons/addToFavourites';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
+import { useQuery } from "react-query";
+import Spinner from "../components/spinner";
+import MustWatchIcon from "../components/cardIcons/mustWatchIcon";
 
 const UpcomingMoviesPage: React.FC = () => {
-    const { movies, setMovies } = useMovieList(getUpcomingMovies);
+  const { data, error, isLoading, isError } = useQuery(
+    "upcoming",
+    getUpcomingMovies
+  );
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error instanceof Error ? error.message : "Failed to load movies"}</h1>;
+  }
+
+  const movies = data ?? [];
 
   return (
     <PageTemplate
-      title='Upcoming Movies'
+      title="Upcoming Movies"
       movies={movies}
-      action={(movie) => <PlaylistAddIcon movie={movie} />}
+      action={(movie) => <MustWatchIcon movie={movie} />}
     />
   );
 };
+
 export default UpcomingMoviesPage;

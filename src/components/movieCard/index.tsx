@@ -11,6 +11,7 @@ import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import img from "../../images/film-poster-placeholder.png";
 import { BaseMovieProps } from "../../types/interfaces";
 import { Link } from "react-router-dom";
@@ -30,8 +31,9 @@ interface MovieCardProps {
 }
 
 const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
-  const { favourites } = useContext(MoviesContext);
+  const { favourites, mustWatch } = useContext(MoviesContext);
   const isFavourite = favourites.includes(movie.id);
+  const isMustWatch = mustWatch.includes(movie.id);
 
   return (
     <Card sx={styles.card}>
@@ -40,6 +42,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, action }) => {
           isFavourite ? (
             <Avatar sx={styles.avatar}>
               <FavoriteIcon />
+            </Avatar>
+          ) : isMustWatch ? (
+            <Avatar sx={styles.avatar}>
+              <PlaylistAddIcon />
             </Avatar>
           ) : null
         }
