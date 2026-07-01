@@ -39,8 +39,8 @@ const initialGenres = [{ id: 0, name: "All" }];
 const [genres, setGenres] = useState<{id:number; name:string}[]>(initialGenres);
 
 useEffect(() => {
-  getGenres().then((allGenres) => {
-    setGenres([...initialGenres, ...allGenres]);
+  getGenres().then((data) => {
+    setGenres([...initialGenres, ...data.genres]);
   });
   // eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
